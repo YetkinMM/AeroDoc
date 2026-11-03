@@ -5,17 +5,50 @@
   "source_url": "https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/amtg_handbook.pdf",
   "expected_page_count": 677,
   "chapter": "Human Factors",
-  "page_ranges": [{"start": 624, "end": 655}],
+  "page_ranges": [
+    {
+      "start": 624,
+      "end": 655
+    }
+  ],
   "page_numbering": "one_based_inclusive",
   "audit": {
-    "pdf_page": 624,
+    "pdf_page": 655,
+    "figure_regions_by_page": {
+      "625": [50, 450, 546, 716],
+      "636": [300, 35, 546, 260],
+      "645": [50, 35, 546, 290]
+    },
     "footer_height_points": 54,
     "column_split_fraction": 0.5,
     "boundary_checks": [
-      {"pdf_page": 623, "printed_page": null, "required_text": ["seven-step checklist", "ethics"]},
-      {"pdf_page": 624, "printed_page": "14-1", "required_text": ["Chapter 14", "Human Factors"]},
-      {"pdf_page": 655, "printed_page": "14-32"},
-      {"pdf_page": 656, "printed_page": "G-1", "required_text": ["Glossary"]}
+      {
+        "pdf_page": 623,
+        "printed_page": null,
+        "required_text": [
+          "seven-step checklist",
+          "ethics"
+        ]
+      },
+      {
+        "pdf_page": 624,
+        "printed_page": "14-1",
+        "required_text": [
+          "Chapter 14",
+          "Human Factors"
+        ]
+      },
+      {
+        "pdf_page": 655,
+        "printed_page": "14-32"
+      },
+      {
+        "pdf_page": 656,
+        "printed_page": "G-1",
+        "required_text": [
+          "Glossary"
+        ]
+      }
     ]
   }
 }
