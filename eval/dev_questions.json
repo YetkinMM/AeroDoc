@@ -1,0 +1,202 @@
+{
+  "dataset_version": "dev-v0.1",
+  "split": "development",
+  "source": {
+    "document_id": "faa_amt_general_30b_2023",
+    "pdf_sha256": "0a39c01bbc454e77a49813cf27e2ef291756fa7111d9308bc290cd0eb71616fd",
+    "pdf_pages": {
+      "start": 624,
+      "end": 655
+    },
+    "page_numbering": "one_based_inclusive"
+  },
+  "questions": [
+    {
+      "id": "D01",
+      "question": "What is the difference between omission, commission, and extraneous errors?",
+      "answerable": true,
+      "source_pages": [
+        624
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 624,
+          "text": "Omission: not performing an act or task."
+        },
+        {
+          "pdf_page": 624,
+          "text": "Commission: accomplishing a task incorrectly."
+        },
+        {
+          "pdf_page": 624,
+          "text": "Extraneous: performing a task not authorized."
+        }
+      ],
+      "reference_answer": "An omission is failing to perform a task. A commission error is performing a task incorrectly. An extraneous error is performing an unauthorized task.",
+      "question_type": "definition",
+      "verified_by_human": true,
+      "corpus_version": "v0.1"
+    },
+    {
+      "id": "D02",
+      "question": "Why can maintenance errors be harder to detect than pilot errors?",
+      "answerable": true,
+      "source_pages": [
+        624
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 624,
+          "text": "Although pilot/co-pilot errors tend to have immediate and highly visible effects, maintenance errors tend to be more latent and less obvious."
+        }
+      ],
+      "reference_answer": "Maintenance errors can remain latent and less visible, while pilot errors tend to have immediate and visible effects.",
+      "question_type": "comparison",
+      "verified_by_human": true,
+      "corpus_version": "v0.1"
+    },
+    {
+      "id": "D03",
+      "question": "What makes an AMT’s working environment demanding, and how much time can documentation take compared with hands-on work?",
+      "answerable": true,
+      "source_pages": [
+        624,
+        625
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 624,
+          "text": "They can be working in the evening or early morning hours, in confined spaces, on high platforms, and in a variety of adverse temperature/humidity conditions. The work can be physically strenuous, yet it also requires attention to detail."
+        },
+        {
+          "pdf_page": 625,
+          "text": "AMTs typically spend as much time updating maintenance logs as they do performing the work."
+        }
+      ],
+      "reference_answer": "AMTs may work evenings or early mornings, in confined spaces, on high platforms, and in adverse temperature or humidity conditions. The work can be physically demanding and requires attention to detail. They typically spend as much time updating maintenance logs as performing the work itself.",
+      "question_type": "multi_page",
+      "verified_by_human": true,
+      "corpus_version": "v0.1"
+    },
+    {
+      "id": "D04",
+      "question": "How does the handbook classify accidentally transposing a torque value from 26 to 62, compared with knowingly deviating from a procedure?",
+      "answerable": true,
+      "source_pages": [
+        636
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 636,
+          "text": "For example, an AMT reads the torque values from a job card and unintentionally transposed the number 26 to 62."
+        },
+        {
+          "pdf_page": 636,
+          "text": "If someone knowingly or intentionally chooses to do something wrong, it is a violation, which means that one has purposely deviated from safe practices, procedures, standards, or regulations."
+        }
+      ],
+      "reference_answer": "Accidentally transposing 26 to 62 is an unintentional error. Knowingly deviating from a procedure is a violation.",
+      "question_type": "classification",
+      "verified_by_human": true,
+      "corpus_version": "v0.1"
+    },
+    {
+      "id": "D05",
+      "question": "According to the handbook’s broken-ladder example, what are the active and latent errors?",
+      "answerable": true,
+      "source_pages": [
+        636
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 636,
+          "text": "In this example, the active error was falling from the ladder. The latent error was the broken ladder that someone should have replaced."
+        }
+      ],
+      "reference_answer": "In the handbook’s example, the active error was falling from the ladder. The latent error was the broken ladder that someone should have replaced.",
+      "question_type": "example_analysis",
+      "verified_by_human": true,
+      "corpus_version": "v0.1"
+    },
+    {
+      "id": "D06",
+      "question": "How can AMTs respond to self-induced pressure and unrealistic repair deadlines?",
+      "answerable": true,
+      "source_pages": [
+        645
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 645,
+          "text": "In an effort to combat self-induced pressure, technicians should ask for help if they feel overwhelmed and under a time constraint to complete a repair. Another method is to have someone check the repair thoroughly to ensure that all maintenance tasks were completed correctly."
+        },
+        {
+          "pdf_page": 645,
+          "text": "Lastly, if given a repair with a specific time limitation that you feel is unrealistic or compromises safety, bring it to the attention of the organization’s management and openly discuss a different course of action."
+        }
+      ],
+      "reference_answer": "Technicians can ask for help when overwhelmed by time pressure or have another person check the repair thoroughly. If the deadline is unrealistic or compromises safety, they should raise it with management and discuss a different course of action.",
+      "question_type": "recommended_response",
+      "verified_by_human": true,
+      "corpus_version": "v0.1"
+    },
+    {
+      "id": "D07",
+      "question": "According to the handbook, what percentage of aviation accidents result from human error, and what percentage of those accidents are maintenance-related?",
+      "answerable": true,
+      "source_pages": [
+        624
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 624,
+          "text": "A review of accident related data indicates that approximately 75–80 percent of all aviation accidents are the result of human error. Of those accidents, about 12 percent are maintenance related."
+        }
+      ],
+      "reference_answer": "According to the handbook, approximately 75–80% of all aviation accidents result from human error. About 12% of those human-error accidents are maintenance-related.",
+      "question_type": "numeric",
+      "verified_by_human": true,
+      "corpus_version": "v0.1"
+    },
+    {
+      "id": "D08",
+      "question": "How does the handbook define assertiveness?",
+      "answerable": true,
+      "source_pages": [
+        645
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 645,
+          "text": "Assertiveness is the ability to express your feelings, opinions, beliefs, and needs in a positive, productive manner and should not be confused with being aggressive."
+        }
+      ],
+      "reference_answer": "Assertiveness means expressing your feelings, opinions, beliefs, and needs in a positive, productive way.",
+      "question_type": "definition",
+      "verified_by_human": true,
+      "corpus_version": "v0.1"
+    },
+    {
+      "id": "D09",
+      "question": "What exact torque value should be used when replacing the forward elevator trim cable on a Beech 1900D?",
+      "answerable": false,
+      "source_pages": [],
+      "evidence_quote": [],
+      "reference_answer": "The Human Factors chapter describes the accident but does not specify a torque value for replacing the forward elevator trim cable.",
+      "question_type": "missing_specification",
+      "verified_by_human": true,
+      "corpus_version": "v0.1"
+    },
+    {
+      "id": "D10",
+      "question": "What is the current METAR report for London Gatwick Airport?",
+      "answerable": false,
+      "source_pages": [],
+      "evidence_quote": [],
+      "reference_answer": "The selected handbook chapter does not provide current METAR reports for London Gatwick Airport.",
+      "question_type": "out_of_scope_current_data",
+      "verified_by_human": true,
+      "corpus_version": "v0.1"
+    }
+  ]
+}
