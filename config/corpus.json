@@ -15,9 +15,24 @@
   "audit": {
     "pdf_page": 655,
     "figure_regions_by_page": {
-      "625": [50, 450, 546, 716],
-      "636": [300, 35, 546, 260],
-      "645": [50, 35, 546, 290]
+      "625": [
+        50,
+        450,
+        546,
+        716
+      ],
+      "636": [
+        300,
+        35,
+        546,
+        260
+      ],
+      "645": [
+        50,
+        35,
+        546,
+        290
+      ]
     },
     "footer_height_points": 54,
     "column_split_fraction": 0.5,
@@ -50,5 +65,6 @@
         ]
       }
     ]
-  }
+  },
+  "figure_regions_path": "config/figure_regions.json"
 }

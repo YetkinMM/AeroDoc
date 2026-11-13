@@ -1,4 +1,67 @@
-# AeroDoc: ilk sayfa extraction kontrolü
+# AeroDoc: toplu extraction
+
+## Güncel kullanım
+
+```powershell
+.\.venv\Scripts\python.exe scripts/extract_corpus.py
+```
+
+PDF hash'i, manifest metadata'sı, sayfa sayısı ve bölüm sınırları doğrulandıktan
+sonra config'teki 32 sayfa çıkarılır. Normalizasyon, chunking ve retrieval bu
+aşamada uygulanmaz. Geliştirme soruları ve kaynak manifesti değiştirilmez.
+
+Temiz checkout'ta eski `audit/` dosyaları gerekmez: kaynak PDF'yi manifestteki
+hash ile sağlayıp ortamı kurmak yeterlidir. Eski beş audit örneği yoksa örnek
+regresyonu `not_available` olarak raporlanır; yapılmamış karşılaştırma başarılı
+sayılmaz. Kaynak/sınır doğrulamaları ve blok muhasebesi yine çalışır.
+
+Extraction artık yalnız `config/figure_regions.json` içindeki **37 kabul edilmiş
+sabit bölgeyi** kullanır; canlı şekil tespiti yapmaz. Bölge dosyasının PDF hash'i
+eşleşmezse durur. 625, 636 ve 645'te manuel sınırlar aktiftir; aynı şeklin
+alternatifleri tekrar işlenmez. Onay yalnız `region_boundary_only` kapsamındadır.
+
+Güncel uygulama ve doğrulama: [sabit bölge extraction raporu](docs/approved_region_extraction.md).
+
+Çıktılar Git dışında, `audit/corpus/` altında tutulur:
+
+- `pages.jsonl`: ham metin, sıralanmış gövde, blok koordinatları, footer blokları,
+  kaynak/config hash'leri, sürümler ve ayrı otomatik/insan inceleme durumları.
+- `figures.jsonl`: 37 ayrı `type=figure` kaydı. 36'sının metni/blokları burada
+  bulunur; sayfalarda yalnız `figure_refs` vardır. 655'in kaydı gövde bloklarına
+  referans verir, metni ikinci kez kopyalamaz ve `indexable=false` taşır.
+- `review_report.json` ve `review_report.md`: sayfa bazında inceleme gerekçeleri.
+- `run_summary.json`: sınır kontrolleri, beş örneğin karşılaştırmaları ve 655'in
+  beş olay–neden çiftinin tam metni ve sıra kontrolü.
+- `baseline/`: beş eski örneğin JSON/TXT/ham TXT/PNG dosyalarının hash'li kopyası;
+  sonraki çalıştırmalarda değiştirilmez.
+
+Her toplu çalıştırma önceki çıktı dizinini `audit/corpus_backups/` altına yedekler.
+Bu geçişten önceki corpus ayrıca `audit/accepted_region_migration/corpus_before/`
+altında korundu. İndeks için yalnız sayfa `text` alanı ve `indexable=true` olan
+şekil `text` alanı kullanılmalı; ham metin, bloklar, footer ve referanslar ayrı
+metin belgeleri olarak indekslenmemeli.
+
+Uyarısız sayfalar dahil tüm yeni kayıtlar `human_review_status=not_reviewed`
+olarak kalır. Şekillerin iç okuma sırası henüz doğrulanmadı. Kaynak uyuşmazlığında
+çıkarım başlamaz. Örnek regresyonunda rapor yazılır ve komut başarısız çıkış
+koduyla sonlanır; downstream kullanımdan önce farkları incele.
+
+Tek sayfa komutu config'teki `audit.pdf_page` sayfasını çıkarır. Önceki çıktıları
+değiştirmeden çalıştırmak ve doğrulama testlerini yürütmek için:
+
+```powershell
+.\.venv\Scripts\python.exe scripts/audit_first_page.py --output audit/corpus/single_page_check
+.\.venv\Scripts\python.exe -B -m unittest discover -s tests -v
+```
+
+`--output` verilmezse tek sayfa komutu önceki gibi `audit/` altına yazar.
+Ortak extraction kodu `scripts/extraction.py` içindedir. Sonraki adım inceleme,
+ayrı normalizasyon ve kaynak sayfa/blok referanslarını koruyan chunking'dir.
+İnsan tarafından doğrulanmış 10 geliştirme sorusu baseline için hazırdır.
+
+## İlk kurulum ve önceki tek sayfa denetimi
+
+Aşağıdaki notlar ilk denetim aşamasını anlatır; güncel toplu kullanım yukarıdadır.
 
 Bu küçük başlangıç paketi sadece bölüm sınırlarını kontrol eder ve PDF'nin
 624. sayfasının metnini çıkarır. Otomatik 32 sayfa extraction, chunking,
