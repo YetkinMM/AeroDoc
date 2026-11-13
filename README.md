@@ -1,5 +1,11 @@
 # AeroDoc: toplu extraction
 
+Minimum normalizasyon ve chunking artık ayrı bir komutla kullanılabilir:
+`.\.venv\Scripts\python.exe -B scripts/build_chunks.py`.
+Bağımlılık/tokenizer kurulumu, kaynak izleme ve doğrulama için
+[chunking kullanım belgesine](docs/chunking.md) bakın. Bu komut extraction
+çıktılarını değiştirmez; embedding veya retrieval çalıştırmaz.
+
 ## Güncel kullanım
 
 ```powershell
