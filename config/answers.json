@@ -1,0 +1,16 @@
+{
+  "model": "gpt-6-luna",
+  "reasoning_effort": "none",
+  "max_output_tokens": 1200,
+  "timeout_seconds": 25,
+  "budget_usd": "0.50",
+  "pricing_checked": "2026-11-18",
+  "pricing_url": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+  "input_token_limit": 1050000,
+  "long_input_threshold": 272000,
+  "input_usd_per_million": "0.10",
+  "cache_write_usd_per_million": "0.125",
+  "output_usd_per_million": "0.50",
+  "retrieval": "bm25",
+  "k": 5
+}

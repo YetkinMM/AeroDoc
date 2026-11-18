@@ -167,3 +167,35 @@ temsil eden toplam 5 örnek sayfa seç ve 32 sayfalık bölüme geçişi hazırl
 Teknik kaynaklar:
 - https://pymupdf.readthedocs.io/en/latest/page.html
 - https://pymupdf.readthedocs.io/en/latest/recipes-text.html
+
+## Kaynaklı yanıt ve yerel API
+
+Kök `.env` dosyasına `.env.example` şablonundaki `OPENAI_API_KEY` değerini
+ekle. Mevcut chunk ve retrieval index çıktıları kurulumdan önce hazır olmalı.
+Eksikse [chunking](docs/chunking.md) ve [retrieval](docs/retrieval.md) adımlarını kullan.
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-answers.txt
+.\.venv\Scripts\python.exe -m scripts.ask --probe
+.\.venv\Scripts\python.exe -m scripts.ask "What is the difference between omission, commission, and extraneous errors?"
+.\.venv\Scripts\python.exe -m scripts.ask_api
+```
+
+Sunucu yalnızca `127.0.0.1:8000` adresini dinler. Tarayıcıda
+[Swagger UI](http://127.0.0.1:8000/docs) sayfasını aç, `POST /ask` için
+**Try it out** seç ve `{"question":"What are the three types of human error?"}`
+gönder. Soru en fazla 2.000 karakter olabilir. `GET /health` ücretli çağrı yapmaz.
+Terminalde BGE seçmek için `--retrieval bge` kullanabilirsin. Varsayılan BM25 ve
+`k=5` ayarları [config/answers.json](config/answers.json) dosyasındadır.
+
+Sunucu çalışırken mevcut on soruyu birer kez HTTP üzerinden çalıştırmak ve
+insan incelemesi için JSON raporunu üretmek için aşağıdaki ilk komutu kullan.
+İkinci komut mock provider ile yerel testleri çalıştırır.
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.evaluate_answers
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+[Yanıt üretimi belgesi](docs/answers.md) model seçimini, maliyet hesabını,
+çıktı durumlarını ve development raporunun kapsamını açıklar.

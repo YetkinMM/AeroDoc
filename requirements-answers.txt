@@ -1,0 +1,5 @@
+-r requirements-retrieval.txt
+fastapi==0.164.0
+openai==3.55.1
+python-dotenv==1.2.4
+uvicorn==0.54.0
