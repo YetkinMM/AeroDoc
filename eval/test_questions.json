@@ -1,0 +1,909 @@
+{
+  "dataset_version": "test-v0.1",
+  "split": "test",
+  "corpus_version": "v0.1",
+  "source": {
+    "document_id": "faa_amt_general_30b_2023",
+    "pdf_sha256": "0a39c01bbc454e77a49813cf27e2ef291756fa7111d9308bc290cd0eb71616fd",
+    "pdf_pages": {
+      "start": 624,
+      "end": 655
+    },
+    "printed_pages": {
+      "start": "14-1",
+      "end": "14-32"
+    },
+    "page_numbering": "one_based_inclusive"
+  },
+  "evidence_verification": "Exact source PDF text match after whitespace normalization only. Figure quotes also checked against the corresponding corpus figure text.",
+  "questions": [
+    {
+      "id": "T01",
+      "question": "Why might a technician with a smaller build work more efficiently with a different set of tools?",
+      "answerable": true,
+      "question_type": "application",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        627
+      ],
+      "printed_pages": [
+        "14-4"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 627,
+          "printed_page": "14-4",
+          "text": "someone who is smaller may be able to perform more efficiently with tools and equipment tailored to their size."
+        }
+      ],
+      "reference_answer": "Tools and equipment sized for the technician can make the same task more efficient.",
+      "paraphrased_question": true,
+      "development_overlap": "D03 shares the work-environment topic. This item tests tool fit and uses a different passage.",
+      "review_note": null,
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T02",
+      "question": "What is MEDA trying to achieve when it investigates an error, and why might a high-profile event work against that aim?",
+      "answerable": true,
+      "question_type": "multi_passage",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        633,
+        634
+      ],
+      "printed_pages": [
+        "14-10",
+        "14-11"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 633,
+          "printed_page": "14-10",
+          "text": "The goal of using MEDA is to investigate errors, understand root causes, and prevent accidents, instead of simply placing blame on the maintenance personnel for the errors."
+        },
+        {
+          "pdf_page": 634,
+          "printed_page": "14-11",
+          "text": "a highly visible event may not really be the best opportunity to investigate errors. Those involved in the process may be intimidated by the attention coming from upper management and various regulatory authorities."
+        }
+      ],
+      "reference_answer": "MEDA investigates errors to understand root causes and prevent accidents. A high-profile event can make investigation harder because attention from senior management and regulators may intimidate the people involved.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": null,
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T03",
+      "question": "According to Figure 14-26, what should technicians ask flight crews about unusual movement or resistance in the system controls?",
+      "answerable": true,
+      "question_type": "figure_text",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        647
+      ],
+      "printed_pages": [
+        "14-24"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 647,
+          "printed_page": "14-24",
+          "text": "Were there vibrations or stiffness of system controls?",
+          "figure_id": "14-26"
+        }
+      ],
+      "reference_answer": "Whether the system controls vibrated or felt stiff.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": "Check that the wording points to the control-feel prompt. The figure also contains a separate question about ease of control.",
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T04",
+      "question": "A technician takes over an unfinished job and is later interrupted. What two forms of handoff should they receive before starting, and where should they resume after the interruption?",
+      "answerable": true,
+      "question_type": "multi_passage",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        637,
+        639
+      ],
+      "printed_pages": [
+        "14-14",
+        "14-16"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 637,
+          "printed_page": "14-14",
+          "text": "It is vital that work not be continued on a project without both oral and written communication between the technician who started the job and the technician continuing it."
+        },
+        {
+          "pdf_page": 639,
+          "printed_page": "14-16",
+          "text": "A good practice is to go back three steps in the work procedure from when distraction occurred and resume the job from that point."
+        }
+      ],
+      "reference_answer": "They should receive both an oral and a written turnover. After the interruption, they should go back three steps from the point of distraction and resume there.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": "Check that the answer distinguishes a handoff requirement from the handbook’s suggested restart practice.",
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T05",
+      "question": "The sample job card in Figure 14-35 marks the task as a duplicate inspection. How many people does it say are needed to do the work and inspect it?",
+      "answerable": true,
+      "question_type": "figure_text",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        653
+      ],
+      "printed_pages": [
+        "14-30"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 653,
+          "printed_page": "14-30",
+          "text": "PERFORMANCE AND INSPECTION MUST BE DONE BY TWO PERSONS.",
+          "figure_id": "14-35"
+        }
+      ],
+      "reference_answer": "Two people are needed to perform and inspect the work.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": "Check that the answer stays scoped to the sample card.",
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T06",
+      "question": "What worker competencies does a job task analysis identify, and which requirements concerning certification and inspection appear under Actions in Figure 14-14?",
+      "answerable": true,
+      "question_type": "multi_passage_figure_text",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        633,
+        635
+      ],
+      "printed_pages": [
+        "14-10",
+        "14-12"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 633,
+          "printed_page": "14-10",
+          "text": "Job task analysis (JTA) is the standard human factors approach to identify the knowledge, skills, and attitudes necessary to perform each task in a given job."
+        },
+        {
+          "pdf_page": 635,
+          "printed_page": "14-12",
+          "text": "Certification requirements",
+          "figure_id": "14-14"
+        },
+        {
+          "pdf_page": 635,
+          "printed_page": "14-12",
+          "text": "Inspection requirements",
+          "figure_id": "14-14"
+        }
+      ],
+      "reference_answer": "The analysis identifies the knowledge, skills, and attitudes needed for each task. The figure lists certification requirements and inspection requirements.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": "The question names certification and inspection explicitly and asks separately what the job task analysis identifies.",
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T07",
+      "question": "Which resources in Figure 14-15 are listed for illuminating the task and for providing a raised work platform or lifting equipment?",
+      "answerable": true,
+      "question_type": "figure_text",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        635
+      ],
+      "printed_pages": [
+        "14-12"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 635,
+          "printed_page": "14-12",
+          "text": "Task lighting",
+          "figure_id": "14-15"
+        },
+        {
+          "pdf_page": 635,
+          "printed_page": "14-12",
+          "text": "Work stands and lifts",
+          "figure_id": "14-15"
+        }
+      ],
+      "reference_answer": "Task lighting and work stands and lifts.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": "The question describes a raised work platform or lifting equipment and asks for the resource labels in Figure 14-15.",
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T08",
+      "question": "In the SHEL model, which component covers a confusing checklist layout, and which covers a hard-to-reach aircraft component?",
+      "answerable": true,
+      "question_type": "classification",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        635
+      ],
+      "printed_pages": [
+        "14-12"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 635,
+          "printed_page": "14-12",
+          "text": "Instead it includes a broader view of manual layout, checklist layout, symbology, language (both technical and nontechnical), and computer programs. Hardware includes such things as the location of components, the accessibility of components and tooling."
+        },
+        {
+          "pdf_page": 635,
+          "printed_page": "14-12",
+          "text": "The term “software” is not referring to the common use of the term as applied to computer programs."
+        }
+      ],
+      "reference_answer": "Software covers checklist layout. Hardware covers component accessibility.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": null,
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T09",
+      "question": "What can happen to the visibility of errors when a company relies on punishment to control behavior?",
+      "answerable": true,
+      "question_type": "cause_effect",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        631
+      ],
+      "printed_pages": [
+        "14-8"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 631,
+          "printed_page": "14-8",
+          "text": "This “crackdown” approach for behavior control is based upon fear and punishment, which creates a problem. Errors are driven into hiding, and then become apparent later, usually at a more critical time (“Murphy’s Law”)."
+        }
+      ],
+      "reference_answer": "Errors can be driven underground and come to light later, often at a more critical moment.",
+      "paraphrased_question": true,
+      "development_overlap": "D02 also concerns error visibility. This item tests the effect of punitive management and uses a different passage.",
+      "review_note": null,
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T10",
+      "question": "In a PEAR organizational environment with a strong safety culture, how does each person understand their own job in relation to safety?",
+      "answerable": true,
+      "question_type": "concept",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        633
+      ],
+      "printed_pages": [
+        "14-10"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 633,
+          "printed_page": "14-10",
+          "text": "In a safe culture, each person understands their individual role is contributing to overall mission safety."
+        }
+      ],
+      "reference_answer": "Each person sees their role as contributing to the safety of the overall mission.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": null,
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T11",
+      "question": "Which two common maintenance errors involve leaving tools or parts behind, or failing to remove a locking device?",
+      "answerable": true,
+      "question_type": "list_lookup",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        651
+      ],
+      "printed_pages": [
+        "14-28"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 651,
+          "printed_page": "14-28",
+          "text": "Forgotten tools and parts."
+        },
+        {
+          "pdf_page": 651,
+          "printed_page": "14-28",
+          "text": "Failure to remove lock pins."
+        }
+      ],
+      "reference_answer": "Forgotten tools and parts, and failure to remove lock pins.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": "Check that the two descriptions identify the intended list entries.",
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T12",
+      "question": "When unsure about an unfamiliar aircraft procedure, whom should a technician consult first, and whom should they contact if that source cannot help?",
+      "answerable": true,
+      "question_type": "page_boundary",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        637,
+        638
+      ],
+      "printed_pages": [
+        "14-14",
+        "14-15"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 637,
+          "printed_page": "14-14",
+          "text": "When in doubt, a technician with experience"
+        },
+        {
+          "pdf_page": 638,
+          "printed_page": "14-15",
+          "text": "on the aircraft should be consulted. If one is not available, or the consulted technician is not familiar with the procedure, a manufacturer’s technical representative should be contacted."
+        }
+      ],
+      "reference_answer": "Consult a technician experienced on the aircraft first. Contact a manufacturer’s technical representative if no such technician is available or the technician is unfamiliar with the procedure.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": "The evidence crosses a PDF page break within one paragraph.",
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T13",
+      "question": "Just before signing for a routine inspection item, what should a technician do to make sure the sign-off is warranted?",
+      "answerable": true,
+      "question_type": "recommended_response",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        637
+      ],
+      "printed_pages": [
+        "14-14"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 637,
+          "printed_page": "14-14",
+          "text": "Prior to the pen touching the paper for a signature, the technician should read the item before signing and confirm it has been performed."
+        }
+      ],
+      "reference_answer": "Read the item and confirm the work was performed before signing.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": null,
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T14",
+      "question": "Why is feeling alert an unreliable way to rule out fatigue during maintenance?",
+      "answerable": true,
+      "question_type": "concept",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        639
+      ],
+      "printed_pages": [
+        "14-16"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 639,
+          "printed_page": "14-16",
+          "text": "However, sometimes a fatigued person may feel wide awake and engaged in a task."
+        }
+      ],
+      "reference_answer": "A fatigued technician can still feel wide awake and engaged in the task.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": null,
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T15",
+      "question": "What sequence of AOG desks does the handbook describe for escalating a grounded-aircraft problem?",
+      "answerable": true,
+      "question_type": "sequence",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        643
+      ],
+      "printed_pages": [
+        "14-20"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 643,
+          "printed_page": "14-20",
+          "text": "Usually the problem is escalated through an internal AOG desk, then the manufacturer’s AOG desk, and finally competitors’ AOG desks."
+        }
+      ],
+      "reference_answer": "The operator’s internal AOG desk first, then the manufacturer’s, then competitors’ AOG desks.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": null,
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T16",
+      "question": "If a needed troubleshooting detail is missing from the available manuals, what people or group does the handbook suggest asking?",
+      "answerable": true,
+      "question_type": "recommended_response",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        644
+      ],
+      "printed_pages": [
+        "14-21"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 644,
+          "printed_page": "14-21",
+          "text": "If the information is unavailable, personnel should ask a supervisor or speak with a technical representative or technical publications department at the appropriate aircraft manufacturer."
+        }
+      ],
+      "reference_answer": "Ask a supervisor, or contact a technical representative or technical publications department at the relevant aircraft manufacturer.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": null,
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T17",
+      "question": "What makes someone new to a maintenance crew good at spotting unsafe habits but less able to change them right away?",
+      "answerable": true,
+      "question_type": "cause_effect",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        650
+      ],
+      "printed_pages": [
+        "14-27"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 650,
+          "printed_page": "14-27",
+          "text": "Newcomers are better able to identify these unsafe norms than long-standing members of the group. On the other hand, the newcomer’s credibility depends on their assimilation into the group."
+        },
+        {
+          "pdf_page": 650,
+          "printed_page": "14-27",
+          "text": "as newcomers become assimilated into the group structure, they build credibility with others. Once this has been done, a relative newcomer may begin to institute change within the group."
+        }
+      ],
+      "reference_answer": "Newcomers are better at spotting unsafe norms than established members, but their credibility depends on becoming accepted by the group. They can begin to change norms after building that credibility.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": null,
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T18",
+      "question": "How can coming to work sick reduce the energy an AMT has available for essential tasks?",
+      "answerable": true,
+      "question_type": "cause_effect",
+      "corpus_version": "v0.1",
+      "source_pages": [
+        648
+      ],
+      "printed_pages": [
+        "14-25"
+      ],
+      "evidence_quote": [
+        {
+          "pdf_page": 648,
+          "printed_page": "14-25",
+          "text": "trying to work when ill or not feeling well can force the body to use more energy fighting the illness, leaving less energy to perform vital tasks."
+        }
+      ],
+      "reference_answer": "Fighting the illness can take more of the body’s energy, leaving less for essential work.",
+      "paraphrased_question": true,
+      "development_overlap": null,
+      "review_note": null,
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T19",
+      "question": "What revision identifier appears on the MEDA results form described in the chapter?",
+      "answerable": false,
+      "question_type": "missing_identifier",
+      "corpus_version": "v0.1",
+      "source_pages": [],
+      "printed_pages": [],
+      "evidence_quote": [],
+      "reference_answer": null,
+      "unanswerable_reason": "The chapter describes what investigators record on the form, but provides no copy of the form or revision identifier for it.",
+      "absence_check": {
+        "searched_pdf_pages": [
+          624,
+          655
+        ],
+        "searched_printed_pages": [
+          "14-1",
+          "14-32"
+        ],
+        "keyword_checks": [
+          {
+            "pattern": "\\bMEDA\\b",
+            "matching_pdf_pages": [
+              633,
+              634
+            ]
+          },
+          {
+            "pattern": "results form",
+            "matching_pdf_pages": [
+              634
+            ]
+          },
+          {
+            "pattern": "form number|revision identifier|revision number",
+            "matching_pdf_pages": []
+          }
+        ],
+        "inspected_passages": [
+          {
+            "pdf_pages": [
+              633,
+              634
+            ],
+            "printed_pages": [
+              "14-10",
+              "14-11"
+            ],
+            "topic": "MEDA overview and investigation step; the step lists what the results form records."
+          }
+        ]
+      },
+      "development_overlap": null,
+      "review_note": "Confirm the nearest passages and the scope of the absence claim.",
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T20",
+      "question": "How long does the chapter say a maintenance organization must retain written shift-turnover records?",
+      "answerable": false,
+      "question_type": "missing_retention_period",
+      "corpus_version": "v0.1",
+      "source_pages": [],
+      "printed_pages": [],
+      "evidence_quote": [],
+      "reference_answer": null,
+      "unanswerable_reason": "The chapter calls for written and oral turnover but gives no retention period for the written records.",
+      "absence_check": {
+        "searched_pdf_pages": [
+          624,
+          655
+        ],
+        "searched_printed_pages": [
+          "14-1",
+          "14-32"
+        ],
+        "keyword_checks": [
+          {
+            "pattern": "shift change|turnover|handoff",
+            "matching_pdf_pages": [
+              637,
+              640,
+              655
+            ]
+          },
+          {
+            "pattern": "retain|retention|archiv",
+            "matching_pdf_pages": []
+          }
+        ],
+        "inspected_passages": [
+          {
+            "pdf_pages": [
+              636,
+              637,
+              638
+            ],
+            "printed_pages": [
+              "14-13",
+              "14-14",
+              "14-15"
+            ],
+            "topic": "Communication and shift turnover guidance, including the written and oral turnover advice and the communication figure."
+          },
+          {
+            "pdf_pages": [
+              640,
+              655
+            ],
+            "printed_pages": [
+              "14-17",
+              "14-32"
+            ],
+            "topic": "Shift-change communication as a source of error and the Airbus incident turnover; neither discusses record retention."
+          }
+        ]
+      },
+      "development_overlap": null,
+      "review_note": "Confirm the nearest passages and the scope of the absence claim.",
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T21",
+      "question": "What recurring calibration interval does the chapter specify for the electronic load cells in the aircraft-weighing example?",
+      "answerable": false,
+      "question_type": "missing_interval",
+      "corpus_version": "v0.1",
+      "source_pages": [],
+      "printed_pages": [],
+      "evidence_quote": [],
+      "reference_answer": null,
+      "unanswerable_reason": "The chapter explains what happened when the correct load cells were unavailable and says to address out-of-calibration tools promptly. It gives no recurring calibration interval for those load cells.",
+      "absence_check": {
+        "searched_pdf_pages": [
+          624,
+          655
+        ],
+        "searched_printed_pages": [
+          "14-1",
+          "14-32"
+        ],
+        "keyword_checks": [
+          {
+            "pattern": "load cells?",
+            "matching_pdf_pages": [
+              643
+            ]
+          },
+          {
+            "pattern": "calibrat\\w*",
+            "matching_pdf_pages": [
+              644
+            ]
+          },
+          {
+            "pattern": "calibration interval|recalibrat\\w*",
+            "matching_pdf_pages": []
+          }
+        ],
+        "inspected_passages": [
+          {
+            "pdf_pages": [
+              641,
+              642,
+              643,
+              644,
+              645,
+              646
+            ],
+            "printed_pages": [
+              "14-18",
+              "14-19",
+              "14-20",
+              "14-21",
+              "14-22",
+              "14-23"
+            ],
+            "topic": "Lack of Resources text and mitigation figure, including the aircraft-weighing example and handling of out-of-calibration tools."
+          }
+        ]
+      },
+      "development_overlap": "D09 also asks for an absent technical detail. The equipment, detail and passages differ.",
+      "review_note": "Confirm the nearest passages and the scope of the absence claim.",
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T22",
+      "question": "What minimum opening width does the chapter give for the aircraft crawl space in its anthropometry example?",
+      "answerable": false,
+      "question_type": "missing_dimension",
+      "corpus_version": "v0.1",
+      "source_pages": [],
+      "printed_pages": [],
+      "evidence_quote": [],
+      "reference_answer": null,
+      "unanswerable_reason": "The example gives the technician’s height and weight, but gives no width or minimum opening size for the crawl space.",
+      "absence_check": {
+        "searched_pdf_pages": [
+          624,
+          655
+        ],
+        "searched_printed_pages": [
+          "14-1",
+          "14-32"
+        ],
+        "keyword_checks": [
+          {
+            "pattern": "anthropometr\\w*|crawl space",
+            "matching_pdf_pages": [
+              625,
+              627,
+              629,
+              630
+            ]
+          },
+          {
+            "pattern": "opening width|minimum width|clearance|\\bwidth\\b",
+            "matching_pdf_pages": [
+              629
+            ]
+          }
+        ],
+        "inspected_passages": [
+          {
+            "pdf_pages": [
+              626,
+              627,
+              628
+            ],
+            "printed_pages": [
+              "14-3",
+              "14-4",
+              "14-5"
+            ],
+            "topic": "Human factors disciplines, anthropometry example, and adjacent figure text."
+          },
+          {
+            "pdf_pages": [
+              629,
+              630
+            ],
+            "printed_pages": [
+              "14-6",
+              "14-7"
+            ],
+            "topic": "Historical anthropometry and figures; the clearance hit refers to ATC instructions."
+          }
+        ]
+      },
+      "development_overlap": "D03 mentions confined workspaces. This item asks for a missing opening dimension in a separate example.",
+      "review_note": "Confirm the nearest passages and the scope of the absence claim.",
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T23",
+      "question": "What direct phone number does the chapter provide for a competitor’s AOG desk?",
+      "answerable": false,
+      "question_type": "missing_contact_detail",
+      "corpus_version": "v0.1",
+      "source_pages": [],
+      "printed_pages": [],
+      "evidence_quote": [],
+      "reference_answer": null,
+      "unanswerable_reason": "The chapter describes when to escalate to competitors’ desks and how major carriers staff their desks. It supplies no direct number for a competitor’s AOG desk.",
+      "absence_check": {
+        "searched_pdf_pages": [
+          624,
+          655
+        ],
+        "searched_printed_pages": [
+          "14-1",
+          "14-32"
+        ],
+        "keyword_checks": [
+          {
+            "pattern": "\\bAOG\\b",
+            "matching_pdf_pages": [
+              642,
+              643
+            ]
+          },
+          {
+            "pattern": "phone|telephone|contact",
+            "matching_pdf_pages": [
+              633,
+              637,
+              638,
+              654
+            ]
+          },
+          {
+            "pattern": "\\b\\d{3}[-.]\\d{3}[-.]\\d{4}\\b",
+            "matching_pdf_pages": []
+          }
+        ],
+        "inspected_passages": [
+          {
+            "pdf_pages": [
+              642,
+              643
+            ],
+            "printed_pages": [
+              "14-19",
+              "14-20"
+            ],
+            "topic": "AOG logistics and escalation"
+          },
+          {
+            "pdf_pages": [
+              653,
+              654
+            ],
+            "printed_pages": [
+              "14-30",
+              "14-31"
+            ],
+            "topic": "Human factors organizations, safety teams and resource listings."
+          }
+        ]
+      },
+      "development_overlap": null,
+      "review_note": "Confirm the nearest passages and the scope of the absence claim.",
+      "review_status": "user_approved"
+    },
+    {
+      "id": "T24",
+      "question": "Which pigment absorbs light for photosynthesis in plants?",
+      "answerable": false,
+      "question_type": "out_of_scope_topic",
+      "corpus_version": "v0.1",
+      "source_pages": [],
+      "printed_pages": [],
+      "evidence_quote": [],
+      "reference_answer": null,
+      "unanswerable_reason": "The selected chapter covers aviation maintenance human factors and contains no explanation of photosynthesis or plant pigments.",
+      "absence_check": {
+        "searched_pdf_pages": [
+          624,
+          655
+        ],
+        "searched_printed_pages": [
+          "14-1",
+          "14-32"
+        ],
+        "keyword_checks": [
+          {
+            "pattern": "photosynth\\w*|chloroph\\w*|chloroplast\\w*|pigment\\w*",
+            "matching_pdf_pages": []
+          }
+        ],
+        "inspected_passages": [
+          {
+            "pdf_pages": [
+              624,
+              627,
+              653,
+              654
+            ],
+            "printed_pages": [
+              "14-1",
+              "14-4",
+              "14-30",
+              "14-31"
+            ],
+            "topic": "Chapter introduction, related sciences and resource sections."
+          }
+        ]
+      },
+      "development_overlap": null,
+      "review_note": "Confirm the nearest passages and the scope of the absence claim.",
+      "review_status": "user_approved"
+    }
+  ],
+  "approval": {
+    "status": "user_approved",
+    "approved_on": "2026-11-22",
+    "scope": "The user accepted the question, reference answer and evidence matches, and the reasons for corpus-scoped unanswerability.",
+    "limits": "The approval does not attest to an independent inspection of all source PDF pages or verification of every semantic relationship in the figures."
+  }
+}

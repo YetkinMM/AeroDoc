@@ -8,7 +8,9 @@ from unittest.mock import Mock, patch
 from fastapi.testclient import TestClient
 from openai import APITimeoutError, RateLimitError
 
-from scripts.answering import AnswerError, AnswerService, Ledger
+from scripts.answering import (
+    INPUT_FRAMING_ALLOWANCE, USD_UNITS, AnswerError, AnswerService, Ledger, encode,
+)
 from scripts.ask_api import create_app
 from scripts.openai_answers import OpenAIProvider
 from scripts.retrieval import ROOT, read
@@ -82,16 +84,34 @@ class AnswerTests(unittest.TestCase):
 
     def test_timeout_persists_reservation_and_prevents_provider_call_after_restart(self):
         self.provider.generate.side_effect = AnswerError("timeout")
-        first = self.service.ask("First?")
+        first = self.make_service("0.0015").ask("First?")
         self.assertEqual(first["error_code"], "timeout")
         self.assertTrue(first["reservation_retained"])
-        second = self.make_service().ask("Second?")
+        second = self.make_service("0.0015").ask("Second?")
         self.assertEqual(second["status"], "budget_exceeded")
         self.provider.generate.assert_called_once()
 
     def test_small_budget_never_calls_provider(self):
-        self.assertEqual(self.make_service("0.01").ask("Question?")["status"], "budget_exceeded")
+        self.assertEqual(self.make_service("0.0006").ask("Question?")["status"], "budget_exceeded")
         self.provider.generate.assert_not_called()
+
+    def test_reservation_uses_prepared_request_and_maximum_output(self):
+        first = self.service.ask("Question?")
+        request = self.provider.generate.call_args.args[0]
+        inputs = len(encode(request).encode("utf-8")) + INPUT_FRAMING_ALLOWANCE
+        self.assertEqual(first["input_upper_bound"], inputs)
+        self.assertEqual(first["output_upper_bound"], 1200)
+        self.assertEqual(self.service.cost(inputs, 1200), inputs * 125_000 + 600_000_000)
+        self.assertEqual(self.service.cost(1_050_000, 1200), USD_UNITS * 2634 // 10_000)
+        self.assertEqual(first["estimated_cost_usd"], "0.0000225")
+
+    def test_previous_charge_and_uncertain_reservation_keep_budget_gate(self):
+        self.service.ledger.reserve(USD_UNITS * 499 // 1000, {"previous": True})
+        self.provider.generate.side_effect = AnswerError("connection_error")
+        first = self.service.ask("First?")
+        self.assertTrue(first["reservation_retained"])
+        self.assertEqual(self.make_service().ask("Second?")["status"], "budget_exceeded")
+        self.provider.generate.assert_called_once()
 
     def test_local_preflight_has_no_charge(self):
         self.provider.generate.side_effect = AnswerError("api_key_missing_or_invalid", request_sent=False)
@@ -117,7 +137,7 @@ class AnswerTests(unittest.TestCase):
                 self.assertEqual(response.status_code, http)
                 self.assertEqual(response.json()["status"], "provider_error")
                 self.assertEqual(response.json()["error_code"], code)
-        with TestClient(create_app(self.make_service("0.01"))) as client:
+        with TestClient(create_app(self.make_service("0.0006"))) as client:
             response = client.post("/ask", json={"question": "Budget?"})
             self.assertEqual(response.status_code, 429)
             self.assertEqual(response.json()["error_code"], "budget_exceeded")

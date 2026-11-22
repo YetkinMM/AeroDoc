@@ -30,6 +30,8 @@ SCHEMA = {
     "additionalProperties": False,
 }
 USD_UNITS = 1_000_000_000_000
+# Allow for server-side message framing and structured output schema processing.
+INPUT_FRAMING_ALLOWANCE = 1024
 
 
 def encode(value):
@@ -38,6 +40,12 @@ def encode(value):
 
 def digest(value):
     return hashlib.sha256(encode(value).encode("utf-8")).hexdigest()
+
+
+def estimate_input_upper_bound(request, model_input_limit):
+    # Budget one token per UTF-8 byte of the actual text and its JSON envelope,
+    # including the response schema. Server-side framing is not exposed locally.
+    return min(model_input_limit, len(encode(request).encode("utf-8")) + INPUT_FRAMING_ALLOWANCE)
 
 
 class AnswerError(Exception):
@@ -178,10 +186,13 @@ class AnswerService:
         return result
 
     def generate(self, request, metadata, sources, started, retrieved):
-        inputs = self.settings["input_token_limit"]
+        model_input_limit = self.settings["input_token_limit"]
+        inputs = estimate_input_upper_bound(request, model_input_limit)
         outputs = request["max_output_tokens"]
         reserved = self.cost(inputs, outputs)
         bound = {"input_upper_bound": inputs, "output_upper_bound": outputs,
+                 "input_bound_method": "request_utf8_bytes_plus_framing_allowance",
+                 "input_framing_allowance": INPUT_FRAMING_ALLOWANCE,
                  "reserved_usd": str(Decimal(reserved) / USD_UNITS)}
         usage, origin, charge = None, "none", None
         call_id = None
@@ -203,7 +214,7 @@ class AnswerService:
             outcome = dict(status=status, error_code=error.code, answer=None, sources=[])
         if usage:
             actual_input, actual_output = usage.get("input_tokens"), usage.get("output_tokens")
-            if (type(actual_input) is int and 0 <= actual_input <= inputs
+            if (type(actual_input) is int and 0 <= actual_input <= model_input_limit
                     and type(actual_output) is int and 0 <= actual_output <= outputs):
                 charge = self.cost(actual_input, actual_output)
         effective_charge = (reserved if charge is None else charge) if call_id is not None else 0
@@ -211,6 +222,7 @@ class AnswerService:
             "origin": origin, "usage": usage,
             "estimated_cost_usd": str(Decimal(effective_charge) / USD_UNITS),
             "reservation_retained": call_id is not None and charge is None,
+            "reservation_underestimated": call_id is not None and charge is not None and charge > reserved,
             "seconds": {"retrieval": retrieved-started, "provider": provider_seconds,
                         "total": perf_counter()-started},
         }
