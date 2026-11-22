@@ -1,0 +1,33 @@
+services:
+  aerodoc:
+    image: aerodoc:local
+    build: .
+    environment:
+      - AERODOC_REQUIRE_LEDGER=1
+      - OPENAI_API_KEY
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - type: bind
+        source: ./audit/chunking/chunks.jsonl
+        target: /app/audit/chunking/chunks.jsonl
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./audit/retrieval/index.json
+        target: /app/audit/retrieval/index.json
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./audit/retrieval/bm25.json
+        target: /app/audit/retrieval/bm25.json
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./audit/answers
+        target: /app/audit/answers
+        bind:
+          create_host_path: false

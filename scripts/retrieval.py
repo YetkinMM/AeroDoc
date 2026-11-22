@@ -12,6 +12,8 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGES = ['torch', 'transformers', 'numpy', 'safetensors', 'tokenizers', 'huggingface-hub']
+# Indexes produced before the BM25 runtime was separated from BGE.
+LEGACY_IMPLEMENTATION_SHA256 = '3befc5f74d32ba6c8fa999eff6c3638e9f340577bf11332860c4e1e1e3e55563'
 
 
 def read(path):
@@ -135,13 +137,35 @@ class Encoder:
         return np.concatenate(vectors).astype('float32'), lengths
 
 
-def fingerprint(config_path, config, chunks):
-    return {'chunks_sha256': sha(ROOT/config['chunks_path']),
-            'config_sha256': sha(config_path), 'implementation_sha256': sha(__file__),
-            'versions': versions(), 'chunk_ids': [c['chunk_id'] for c in chunks]}
+def fingerprint(config_path, config, chunks, *, bm25_only=False):
+    identity = {'chunks_sha256': sha(ROOT/config['chunks_path']),
+                'config_sha256': sha(config_path), 'implementation_sha256': sha(__file__),
+                'chunk_ids': [c['chunk_id'] for c in chunks]}
+    if not bm25_only:
+        identity['versions'] = versions()
+    return identity
 
 
-def build(config_path=ROOT/'config/retrieval.json'):
+def bm25_artifact(backend):
+    return {'tf': [dict(t) for t in backend.tf], 'lengths': backend.lengths,
+            'df': dict(backend.df), 'average_length': backend.avg}
+
+
+def build(config_path=ROOT/'config/retrieval.json', *, bm25_only=False):
+    if bm25_only:
+        config = read(config_path)
+        chunks = corpus(ROOT/config['chunks_path'])
+        out = ROOT/config['output_dir']
+        if (out/'embeddings.npy').exists():
+            raise ValueError('BGE embeddings already exist; use the full build to refresh both indexes')
+        out.mkdir(parents=True, exist_ok=True)
+        start = time.perf_counter()
+        dump(out/'bm25.json', bm25_artifact(BM25(chunks, config['bm25'])))
+        manifest = fingerprint(config_path, config, chunks, bm25_only=True) | {
+            'bm25_sha256': sha(out/'bm25.json'), 'bm25_build_seconds': time.perf_counter()-start}
+        dump(out/'index.json', manifest)
+        return manifest
+
     import numpy as np
     config = read(config_path)
     chunks = corpus(ROOT/config['chunks_path'])
@@ -160,8 +184,7 @@ def build(config_path=ROOT/'config/retrieval.json'):
         raise ValueError('Passage tokenizer counts differ from chunking')
     dense_seconds = time.perf_counter()-start
     np.save(out/'embeddings.npy', embeddings, allow_pickle=False)
-    dump(out/'bm25.json', {'tf': [dict(t) for t in bm25.tf], 'lengths': bm25.lengths,
-                          'df': dict(bm25.df), 'average_length': bm25.avg})
+    dump(out/'bm25.json', bm25_artifact(bm25))
     manifest = fingerprint(config_path, config, chunks) | {
         'config': config, 'device': config['dense']['device'], 'dimension': embeddings.shape[1],
         'model_files': read(ROOT/config['dense']['model_dir']/'manifest.json'),
@@ -176,13 +199,17 @@ def build(config_path=ROOT/'config/retrieval.json'):
 class Searcher:
     """Both backends return identical chunk schemas, plus rank and score."""
     def __init__(self, method, config_path=ROOT/'config/retrieval.json'):
-        import numpy as np
         self.config = read(config_path)
         self.chunks = corpus(ROOT/self.config['chunks_path'])
         self.method, self.encoder = method, None
         out = ROOT/self.config['output_dir']
         manifest = read(out/'index.json')
-        current = fingerprint(config_path, self.config, self.chunks)
+        if method == 'bge' and 'embeddings_sha256' not in manifest:
+            raise ValueError('BGE index missing; run the full retrieval build')
+        current = fingerprint(config_path, self.config, self.chunks, bm25_only=method == 'bm25')
+        implementation = manifest.get('implementation_sha256')
+        if implementation == LEGACY_IMPLEMENTATION_SHA256:
+            current['implementation_sha256'] = LEGACY_IMPLEMENTATION_SHA256
         if any(manifest.get(key) != val for key, val in current.items()):
             raise ValueError('Stale index: corpus/config/code/environment changed; rebuild explicitly')
         if method == 'bm25':
@@ -190,9 +217,11 @@ class Searcher:
                 raise ValueError('Corrupt BM25 index')
             self.backend = BM25(self.chunks, self.config['bm25'])
             saved = read(out/'bm25.json')
-            if saved['tf'] != [dict(x) for x in self.backend.tf]:
+            if saved != bm25_artifact(self.backend):
                 raise ValueError('BM25 mapping mismatch')
         elif method == 'bge':
+            import numpy as np
+
             self.encoder = Encoder(self.config['dense'])
             if sha(out/'embeddings.npy') != manifest['embeddings_sha256']:
                 raise ValueError('Corrupt embedding index')
@@ -220,11 +249,12 @@ def main():
     parser.add_argument('command', choices=['build', 'search'])
     parser.add_argument('--config', type=Path, default=ROOT/'config/retrieval.json')
     parser.add_argument('--method', choices=['bm25', 'bge'], default='bm25')
+    parser.add_argument('--bm25-only', action='store_true', help='build BM25 without BGE artifacts')
     parser.add_argument('--question')
     parser.add_argument('-k', type=int, default=5)
     args = parser.parse_args()
     if args.command == 'build':
-        result = build(args.config)
+        result = build(args.config, bm25_only=args.bm25_only)
         print(json.dumps({k: v for k, v in result.items() if k.endswith('seconds')}, indent=2))
     else:
         if not args.question:

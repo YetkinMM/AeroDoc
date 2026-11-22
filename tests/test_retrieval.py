@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'scripts'))
-from retrieval import BM25, Encoder, Searcher, corpus, dump, fingerprint, ranked, read
+from retrieval import BM25, Encoder, Searcher, build, corpus, dump, fingerprint, ranked, read
 from evaluate_retrieval import coverage, covered, evidence_locations, metrics, source_stream
 import verify_retrieval
 
@@ -38,6 +38,23 @@ class RankingTests(unittest.TestCase):
             self.assertEqual(results[0][key], chunks[1][key])
         self.assertNotIn('score', chunks[1])
         self.assertEqual(engine.search('alpha alpha', 3), results)
+
+    def test_bm25_only_index_build_and_search_without_dense_packages(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            chunks_path = root/'chunks.jsonl'
+            source = chunk('a', 'alpha beta')
+            chunks_path.write_text(json.dumps(source), encoding='utf-8')
+            config = read(ROOT/'config/retrieval.json')
+            config.update(chunks_path=str(chunks_path), output_dir=str(root/'index'))
+            config_path = root/'retrieval.json'
+            dump(config_path, config)
+            with patch('retrieval.versions', side_effect=AssertionError('Dense packages queried')):
+                build(config_path, bm25_only=True)
+                result, = Searcher('bm25', config_path).search('alpha')
+                self.assertEqual({key: result[key] for key in source}, source)
+                with self.assertRaisesRegex(ValueError, 'BGE index missing'):
+                    Searcher('bge', config_path)
 
     def test_invalid_scores_and_k(self):
         with self.assertRaises(ValueError):
@@ -79,12 +96,12 @@ class RankingTests(unittest.TestCase):
             config['output_dir'] = str(directory)
             config_path = directory/'config.json'
             dump(config_path, config)
-            manifest = fingerprint(config_path, config, chunks)
+            manifest = fingerprint(config_path, config, chunks, bm25_only=True)
             manifest['chunk_ids'].reverse()
             dump(directory/'index.json', manifest)
             with self.assertRaisesRegex(ValueError, 'Stale index'):
                 Searcher('bm25', config_path)
-            manifest = fingerprint(config_path, config, chunks)
+            manifest = fingerprint(config_path, config, chunks, bm25_only=True)
             dump(directory/'index.json', manifest)
             config['bm25']['k1'] = 1.2
             dump(config_path, config)

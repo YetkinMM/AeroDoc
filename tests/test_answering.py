@@ -41,6 +41,18 @@ class AnswerTests(unittest.TestCase):
         return AnswerService(self.searcher, self.provider, self.settings, Ledger(self.path, budget),
                              {"retrieval": "bm25"})
 
+    def test_required_ledger_reopens_without_reset_and_never_recreates_missing_file(self):
+        self.service.ledger.reserve(USD_UNITS // 2, {"status": "uncertain"})
+        before = self.path.read_bytes()
+        reopened = Ledger(self.path, "0.50", require_existing=True)
+        with self.assertRaisesRegex(AnswerError, "budget_exceeded"):
+            reopened.reserve(1, {})
+        self.assertEqual(self.path.read_bytes(), before)
+        self.path.unlink()
+        with self.assertRaises(FileNotFoundError):
+            Ledger(self.path, "0.50", require_existing=True)
+        self.assertFalse(self.path.exists())
+
     def test_answer_metadata_and_cache(self):
         live = self.service.ask("Question?")
         self.assertEqual(live["status"], "answered")

@@ -3,6 +3,7 @@ from contextlib import closing
 from decimal import Decimal, ROUND_UP
 import hashlib
 import json
+import os
 import re
 import sqlite3
 from time import perf_counter
@@ -61,11 +62,19 @@ class Provider(Protocol):
 
 
 class Ledger:
-    def __init__(self, path, limit):
+    def __init__(self, path, limit, *, require_existing=False):
         self.path = path
         self.limit = int(Decimal(limit) * USD_UNITS)
+        self.require_existing = require_existing
+        if require_existing:
+            if not path.is_file():
+                raise FileNotFoundError(f'Existing budget ledger required at {path}')
+            with closing(self.connect()) as db:
+                for table in ('calls', 'cache', 'events'):
+                    db.execute(f'SELECT 1 FROM {table} LIMIT 0')
+            return
         path.parent.mkdir(parents=True, exist_ok=True)
-        with closing(sqlite3.connect(path)) as db, db:
+        with closing(self.connect()) as db, db:
             db.execute("""CREATE TABLE IF NOT EXISTS calls (
                 id INTEGER PRIMARY KEY, charge INTEGER NOT NULL, detail TEXT NOT NULL)""")
             db.execute("""CREATE TABLE IF NOT EXISTS cache (
@@ -73,13 +82,18 @@ class Ledger:
             db.execute("""CREATE TABLE IF NOT EXISTS events (
                 id INTEGER PRIMARY KEY, detail TEXT NOT NULL)""")
 
+    def connect(self):
+        if self.require_existing:
+            return sqlite3.connect(self.path.resolve().as_uri() + '?mode=rw', uri=True)
+        return sqlite3.connect(self.path)
+
     def cached(self, key):
-        with closing(sqlite3.connect(self.path)) as db:
+        with closing(self.connect()) as db:
             row = db.execute("SELECT content FROM cache WHERE key = ?", (key,)).fetchone()
             return json.loads(row[0]) if row else None
 
     def reserve(self, amount, detail):
-        with closing(sqlite3.connect(self.path)) as db, db:
+        with closing(self.connect()) as db, db:
             db.execute("BEGIN IMMEDIATE")
             spent = db.execute("SELECT coalesce(sum(charge), 0) FROM calls").fetchone()[0]
             if spent + amount > self.limit:
@@ -89,12 +103,12 @@ class Ledger:
             ).lastrowid
 
     def complete(self, call_id, charge, detail):
-        with closing(sqlite3.connect(self.path)) as db, db:
+        with closing(self.connect()) as db, db:
             db.execute("UPDATE calls SET charge = coalesce(?, charge), detail = ? WHERE id = ?",
                        (charge, encode(detail), call_id))
 
     def record(self, key, result):
-        with closing(sqlite3.connect(self.path)) as db, db:
+        with closing(self.connect()) as db, db:
             db.execute("INSERT INTO events(detail) VALUES (?)", (encode(result),))
             if result["origin"] == "live" and result["status"] in ("answered", "insufficient_evidence"):
                 db.execute("INSERT OR REPLACE INTO cache VALUES (?, ?)", (key, encode(result)))
@@ -240,5 +254,6 @@ def create_service(method=None, provider=None):
     index = ROOT / searcher.config["output_dir"] / "index.json"
     identity = {"retrieval": method, "index_sha256": sha(index),
                 "chunks_sha256": sha(ROOT / searcher.config["chunks_path"])}
-    ledger = Ledger(ROOT / "audit/answers/ledger.sqlite3", settings["budget_usd"])
+    ledger = Ledger(ROOT / "audit/answers/ledger.sqlite3", settings["budget_usd"],
+                    require_existing=os.environ.get("AERODOC_REQUIRE_LEDGER") == "1")
     return AnswerService(searcher, provider or OpenAIProvider(settings), settings, ledger, identity)

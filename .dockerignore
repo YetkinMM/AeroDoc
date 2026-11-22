@@ -1,0 +1,11 @@
+**
+!Dockerfile
+!requirements-docker.lock.txt
+!config/
+!config/answers.json
+!config/retrieval.json
+!scripts/
+!scripts/ask_api.py
+!scripts/answering.py
+!scripts/openai_answers.py
+!scripts/retrieval.py

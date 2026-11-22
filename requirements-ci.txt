@@ -1,0 +1,3 @@
+-r requirements-docker.lock.txt
+-r requirements-chunking.lock.txt
+numpy==2.3.4
