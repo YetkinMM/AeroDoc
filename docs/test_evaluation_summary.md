@@ -49,4 +49,22 @@ faturasıyla doğrulanmadı.
 
 ChatGPT’nin sağladığı metin karşılaştırması, 17 cevabın temel bilgilerinin referanslarla uyumlu olduğunu ve atıf metinlerinde belirgin çelişki veya desteksiz temel iddia görülmediğini bildiriyor. T05’te iki kişi şartı doğrudan destekleniyor. “Biri yapar, diğeri denetler” ifadesi duplicate inspection bağlamından makul bir çıkarım. T13 ve T17’de işaretlenen ek ifadeler atıf metinlerinde doğrudan destekleniyor.
 
-Karşılaştırma bu küçük, kaynak metinden hazırlanmış setteki mevcut model cevaplarını, referansları ve atıf chunk’larını kapsar. Doğruluk, eksiksizlik ve anlamsal kaynak desteği için insan inceleme alanları `pending`. Ayrı `assistant_review` kaydı ve ayrıntılı çalışma çıktıları yerel `audit/test_runs/` dizininde tutulur.
+Asistan karşılaştırması bu küçük, kaynak metinden hazırlanmış setteki model
+cevaplarını, referans cevapları ve atıf metinlerini kapsadı. İlk
+`assistant_review` kaydı yerel çalıştırma dizininde saklanıyor.
+
+## Proje sahibinin bildirdiği insan incelemesi
+
+Proje sahibi Muhlis Yetkin, 2026-11-22 tarihinde asistan incelemesinden
+sonra insan incelemesini tamamladığını bildirdi. Üretilen 17 cevabın 17’sini
+referans cevaplarla ve atıf yapılan kaynak metinlerle karşılaştırarak doğru,
+yeterli ve kaynakla destekli buldu. Toplam 18 cevaplanabilir sorudan T14
+`insufficient_evidence` ile yanıtsız kaldı. Altı cevaplanamaz sorunun
+tamamında sistem çekimser kaldı.
+
+T05’te iki kişi şartını doğrudan destekli, “biri yapar, diğeri denetler”
+görev dağılımını bağlamdan kabul edilebilir bir çıkarım olarak değerlendirdi.
+Kullanıcı beyanı ve 17 cevabın inceleme alanları
+`audit/test_runs/20261122T094126Z-3ecd1ad3/human_review.json` dosyasında
+saklanıyor. Bulgular bu küçük, kaynak metinden hazırlanmış test setiyle
+sınırlıdır.

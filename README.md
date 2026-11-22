@@ -116,24 +116,23 @@ answerable and six unanswerable questions. The retrieval metrics use the
 | BGE | 3 | 88.89% | 75.00% | 72.22% |
 | BGE | 5 | 94.44% | 88.89% | 88.89% |
 
-The completed answer run used BM25 k=5 and recorded 17 `answered` and
-seven `insufficient_evidence` responses. The latter include all six
-unanswerable questions and answerable T14. For T14, BM25 found the right
-page (PDF 639, printed 14-16), but its top five chunks missed the necessary
-sentence about feeling alert while fatigued.
+The completed answer run used BM25 k=5 and answered 17 of 18 answerable
+questions. Project owner Muhlis Yetkin reported on 2026-11-22 that all 17
+generated answers were correct, sufficient and supported by their cited
+sources after comparison with the reference answers and cited text.
+Answerable T14 remained unanswered with `insufficient_evidence`. BM25
+retrieved the right page (PDF 639, printed 14-16), and its top five chunks
+missed the necessary sentence about feeling alert while fatigued. The
+system abstained on all six unanswerable questions.
 
-`answered` is an application status. A ChatGPT `assistant_review` compared
-the 17 answers with their references and cited chunk text and found their
-main claims aligned. For T05 it found direct support for the two-person
-requirement and treated the division of duties as a reasonable inference.
-Human review of correctness, completeness and semantic support remains
-`pending`.
+The project owner completed this human review after the recorded ChatGPT
+`assistant_review`. For T05, he found direct support for the two-person
+requirement and accepted the division of duties as a reasonable inference
+from the duplicate inspection context.
 
-The completed test run and its probe totalled **USD 0.005529875** in
-usage-based estimates, separate from a **USD 0.2634** retained reservation
-from an earlier uncertain call. These figures are local accounting records.
-See the [evaluation summary](docs/test_evaluation_summary.md) for the run
-details and how to interpret the figures.
+The completed test run and its probe cost an estimated **USD 0.00553**
+based on recorded usage. See the [evaluation summary](docs/test_evaluation_summary.md)
+for details.
 
 ## Limitations and future work
 
