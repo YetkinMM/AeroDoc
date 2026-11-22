@@ -13,6 +13,7 @@ RUN python -m pip install --no-cache-dir -r requirements-docker.lock.txt \
 
 COPY config/answers.json config/retrieval.json ./config/
 COPY scripts/ask_api.py scripts/answering.py scripts/openai_answers.py scripts/retrieval.py ./scripts/
+COPY web/index.html web/styles.css web/demo.js web/examples.json ./web/
 
 USER 10001:10001
 EXPOSE 8000

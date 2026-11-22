@@ -1,12 +1,16 @@
 """Local HTTP entry point for grounded answers."""
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 
 from .answering import MAX_QUESTION, create_service, normalize_question
+
+WEB_DIR = Path(__file__).resolve().parents[1] / "web"
 
 
 class AskRequest(BaseModel):
@@ -25,6 +29,11 @@ def create_app(service=None):
         yield
 
     app = FastAPI(title="AeroDoc", lifespan=lifespan)
+    app.mount("/assets", StaticFiles(directory=WEB_DIR), name="assets")
+
+    @app.get("/", include_in_schema=False)
+    def demo():
+        return FileResponse(WEB_DIR / "index.html")
 
     @app.exception_handler(RequestValidationError)
     async def invalid_question(request, error):

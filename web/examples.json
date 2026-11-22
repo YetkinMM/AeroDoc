@@ -1,0 +1,44 @@
+{
+  "run_id": "20261122T094126Z-3ecd1ad3",
+  "examples": {
+    "T01": {
+      "question": "Why might a technician with a smaller build work more efficiently with a different set of tools?",
+      "status": "answered",
+      "answer": "A technician with a smaller build may work more efficiently when tools and equipment are tailored to their size, because one size does not fit everyone. [S1]",
+      "sources": [
+        {
+          "label": "S1",
+          "pdf_pages": [
+            627
+          ],
+          "printed_pages": [
+            "14-4"
+          ]
+        }
+      ]
+    },
+    "T05": {
+      "question": "The sample job card in Figure 14-35 marks the task as a duplicate inspection. How many people does it say are needed to do the work and inspect it?",
+      "status": "answered",
+      "answer": "Two people: one to perform the task and one to inspect it. [S1]",
+      "sources": [
+        {
+          "label": "S1",
+          "pdf_pages": [
+            653
+          ],
+          "printed_pages": [
+            "14-30"
+          ],
+          "figure_id": "14-35"
+        }
+      ]
+    },
+    "T19": {
+      "question": "What revision identifier appears on the MEDA results form described in the chapter?",
+      "status": "insufficient_evidence",
+      "answer": null,
+      "sources": []
+    }
+  }
+}

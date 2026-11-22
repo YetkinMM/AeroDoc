@@ -9,3 +9,8 @@
 !scripts/answering.py
 !scripts/openai_answers.py
 !scripts/retrieval.py
+!web/
+!web/index.html
+!web/styles.css
+!web/demo.js
+!web/examples.json

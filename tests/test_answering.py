@@ -134,6 +134,24 @@ class AnswerTests(unittest.TestCase):
         self.provider.generate.side_effect = None
         self.assertEqual(self.make_service().ask("Second?")["status"], "answered")
 
+    def test_demo_serves_recorded_examples_without_calling_provider(self):
+        with TestClient(create_app(self.service)) as client:
+            page = client.get("/")
+            self.assertEqual(page.status_code, 200)
+            self.assertIn('id="ask-form"', page.text)
+            for asset in ("demo.js", "styles.css"):
+                self.assertEqual(client.get(f"/assets/{asset}").status_code, 200)
+            response = client.get("/assets/examples.json")
+            self.assertEqual(response.status_code, 200)
+            examples = response.json()["examples"]
+            self.assertEqual(set(examples), {"T01", "T05", "T19"})
+            figure, = examples["T05"]["sources"]
+            self.assertEqual((figure["pdf_pages"], figure["printed_pages"], figure["figure_id"]),
+                             ([653], ["14-30"], "14-35"))
+            self.assertEqual((examples["T19"]["status"], examples["T19"]["sources"]),
+                             ("insufficient_evidence", []))
+        self.provider.generate.assert_not_called()
+
     def test_health_validation_and_provider_http_errors(self):
         with TestClient(create_app(self.service)) as client:
             self.assertEqual(client.get("/health").json(), {"status": "ok", "retrieval": "bm25"})

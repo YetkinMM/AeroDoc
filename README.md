@@ -4,6 +4,11 @@ AeroDoc is a retrieval-augmented generation (RAG) prototype that answers
 aviation maintenance questions from selected source text with page citations.
 It can abstain when the retrieved passages provide insufficient evidence.
 
+![AeroDoc demo with a recorded answer and its FAA handbook source card](docs/images/aerodoc-demo.png)
+
+*Recorded example T05 from the frozen test run. The screenshot shows the
+saved answer and its source metadata.*
+
 [![CI](https://github.com/YetkinMM/AeroDoc/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/YetkinMM/AeroDoc/actions/workflows/ci.yaml)
 
 ## What v0.1 covers
@@ -72,8 +77,9 @@ Invoke-RestMethod http://127.0.0.1:8000/health
 
 If the service is still starting, retry the health check after a few
 seconds. The expected response is `{"status":"ok","retrieval":"bm25"}`. Swagger UI
-is at `http://127.0.0.1:8000/docs`. Health checks and BM25 searches do not
-need an API key. For live answers, pass `OPENAI_API_KEY` only at runtime
+is at `http://127.0.0.1:8000/docs`. Open the demo at
+`http://127.0.0.1:8000/` to browse the recorded examples. Health checks and
+BM25 searches do not need an API key. For live answers, pass `OPENAI_API_KEY` only at runtime
 using the [Docker guide](docs/docker.md#başlatma-loglar-ve-durdurma).
 A valid `POST /ask` request can incur OpenAI charges on a cache miss.
 The [recorded demo](docs/demo.md) can be presented without new API calls.
